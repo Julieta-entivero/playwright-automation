@@ -1,0 +1,17 @@
+{
+  "name": "playwright-automation",
+  "version": "1.0.0",
+  "description": "Framework de automation con Playwright y POM",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:login": "npx playwright test tests/login.spec.js",
+    "test:products": "npx playwright test tests/products.spec.js",
+    "test:cart": "npx playwright test tests/cart.spec.js",
+    "test:checkout": "npx playwright test tests/checkout.spec.js",
+    "report": "npx playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.42.0"
+  }
+}
