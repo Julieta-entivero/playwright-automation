@@ -31,12 +31,11 @@ class InventoryPage {
     }
 
     async getCartBadgeCount() {
-        try {
-            const text = await this.cartBadge.textContent();
-            return text;
-        } catch {
-            return '0';
-        }
+        // fix: antes usaba try/catch pero playwright no tira excepcion
+        // si el elemento no existe, tira timeout. mejor chequeamos visibilidad
+        const visible = await this.cartBadge.isVisible();
+        if (!visible) return '0';
+        return await this.cartBadge.textContent();
     }
 
     async isCartBadgeVisible() {
