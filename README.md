@@ -1,3 +1,5 @@
+![Playwright Tests](https://github.com/Julieta-entivero/playwright-automation/actions/workflows/tests.yml/badge.svg)
+
 # Playwright Automation
 
 Framework de automatizacion E2E para [SauceDemo](https://www.saucedemo.com/) utilizando Playwright con JavaScript y el patron Page Object Model (POM).
