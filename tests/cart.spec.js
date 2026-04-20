@@ -46,9 +46,10 @@ test.describe('Carrito de compras - SHOP-301 SHOP-302', () => {
 
         await inventoryPage.goToCart();
         const cart = new CartPage(page);
-        const precioEnCarrito = await cart.getItemPrice(0);
+        const precioEnCarritoText = await cart.getItemPrice(0);
+        const precioEnCarrito = parseFloat(precioEnCarritoText.replace('$', ''));
 
-        expect(precioEnCarrito).toContain(precioEnCatalogo.toString());
+        expect(precioEnCarrito).toBe(precioEnCatalogo);
     });
 
     test('remover producto desde el carrito', async ({ page }) => {

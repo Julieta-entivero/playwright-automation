@@ -136,7 +136,7 @@ test.describe('Checkout - SHOP-401 SHOP-402 SHOP-403', () => {
         expect(await home.isLoaded()).toBe(true);
     });
 
-    test('verificar que el total incluye tax', async ({ page }) => {
+    test('verificar que subtotal + tax = total', async ({ page }) => {
         await inventoryPage.addItemByName('Sauce Labs Backpack');
         await inventoryPage.goToCart();
 
@@ -148,13 +148,16 @@ test.describe('Checkout - SHOP-401 SHOP-402 SHOP-403', () => {
         await stepOne.continue();
 
         const stepTwo = new CheckoutStepTwoPage(page);
-        const subtotal = await stepTwo.getSubtotal();
-        const tax = await stepTwo.getTax();
-        const total = await stepTwo.getTotal();
+        const subtotalText = await stepTwo.getSubtotal();
+        const taxText = await stepTwo.getTax();
+        const totalText = await stepTwo.getTotal();
 
-        // todos deben tener el signo $
-        expect(subtotal).toContain('$');
-        expect(tax).toContain('$');
-        expect(total).toContain('$');
+        const subtotal = parseFloat(subtotalText.replace(/[^0-9.]/g, ''));
+        const tax = parseFloat(taxText.replace(/[^0-9.]/g, ''));
+        const total = parseFloat(totalText.replace(/[^0-9.]/g, ''));
+
+        expect(subtotal).toBeGreaterThan(0);
+        expect(tax).toBeGreaterThan(0);
+        expect(total).toBeCloseTo(subtotal + tax, 2);
     });
 });

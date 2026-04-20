@@ -24,6 +24,10 @@ class LoginPage {
     async isErrorVisible() {
         return await this.errorMessage.isVisible();
     }
+
+    async isLoginButtonVisible() {
+        return await this.loginButton.isVisible();
+    }
 }
 
 module.exports = { LoginPage };

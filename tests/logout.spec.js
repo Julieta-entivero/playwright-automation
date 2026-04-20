@@ -10,16 +10,15 @@ test.describe('Logout - SHOP-501', () => {
         const inventory = new InventoryPage(page);
         await inventory.logout();
 
-        // deberia estar en el login
         const loginPage = new LoginPage(page);
-        await expect(page.locator('#login-button')).toBeVisible();
+        expect(await loginPage.isLoginButtonVisible()).toBe(true);
     });
 
-    test('url despues del logout es la correcta', async ({ page }) => {
+    test('url despues del logout no contiene inventory', async ({ page }) => {
         await loginAsStandardUser(page);
         const inventory = new InventoryPage(page);
         await inventory.logout();
 
-        expect(page.url()).toContain('saucedemo.com');
+        expect(page.url()).not.toContain('/inventory.html');
     });
 });

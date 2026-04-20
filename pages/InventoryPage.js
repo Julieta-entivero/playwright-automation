@@ -51,23 +51,12 @@ class InventoryPage {
     }
 
     async getAllItemNames() {
-        const names = [];
-        const count = await this.inventoryItems.count();
-        for (let i = 0; i < count; i++) {
-            const name = await this.inventoryItems.nth(i).locator('.inventory_item_name').textContent();
-            names.push(name);
-        }
-        return names;
+        return await this.page.locator('.inventory_item_name').allTextContents();
     }
 
     async getAllPrices() {
-        const prices = [];
-        const count = await this.inventoryItems.count();
-        for (let i = 0; i < count; i++) {
-            const priceText = await this.inventoryItems.nth(i).locator('.inventory_item_price').textContent();
-            prices.push(parseFloat(priceText.replace('$', '')));
-        }
-        return prices;
+        const priceTexts = await this.page.locator('.inventory_item_price').allTextContents();
+        return priceTexts.map(text => parseFloat(text.replace('$', '')));
     }
 
     async clickItemByName(productName) {

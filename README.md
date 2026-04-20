@@ -26,8 +26,8 @@ Framework de automatizacion E2E para [SauceDemo](https://www.saucedemo.com/) uti
 │   ├── checkout.spec.js           # 8 tests de checkout
 │   └── logout.spec.js             # 2 tests de logout
 ├── utils/
-│   └── testHelper.js              # Utilidad de login reutilizable
-└── playwright.config.js           # Configuracion del framework
+│   └── testHelper.js              # Login helper y credenciales centralizadas
+└── playwright.config.js           # Config multi-browser (Chromium, Firefox, WebKit)
 ```
 
 ## Cobertura de tests
@@ -37,7 +37,7 @@ Framework de automatizacion E2E para [SauceDemo](https://www.saucedemo.com/) uti
 | Login | SHOP-101/102 | 6 | Login valido, credenciales invalidas, campos vacios, usuario bloqueado |
 | Products | SHOP-201/202/203 | 9 | Carga, ordenamiento por precio y nombre, detalle, navegacion |
 | Cart | SHOP-301/302 | 8 | Agregar uno/varios items, remover, validar precios, navegacion |
-| Checkout | SHOP-401/402/403 | 8 | Flujo completo (1-3 productos), validaciones, cancelacion, verificacion de totales |
+| Checkout | SHOP-401/402/403 | 8 | Flujo completo, validaciones, cancelacion, verificacion matematica de totales |
 | Logout | SHOP-501 | 2 | Navegacion y validacion de URL |
 | **Total** | | **33** | |
 
@@ -53,7 +53,7 @@ Framework de automatizacion E2E para [SauceDemo](https://www.saucedemo.com/) uti
 npm install
 npx playwright install
 
-# Ejecutar todos los tests
+# Ejecutar todos los tests (3 browsers)
 npm test
 
 # Ejecutar con navegador visible
@@ -71,9 +71,17 @@ npm run report
 
 ## Configuracion
 
+Las credenciales se pueden sobreescribir con variables de entorno:
+
+```bash
+STANDARD_USER=standard_user
+STANDARD_PASSWORD=secret_sauce
+BASE_URL=https://www.saucedemo.com
+```
+
 | Parametro | Valor |
 |-----------|-------|
-| Workers | 2 (ejecucion paralela) |
+| Browsers | Chromium, Firefox, WebKit |
 | Retries | 1 |
 | Timeout | 30 segundos |
 | Screenshots | Solo en fallas |
@@ -87,5 +95,6 @@ El framework utiliza el patron **Page Object Model (POM)**:
 
 - **Pages**: Cada pagina encapsula locators y acciones como metodos async
 - **Tests**: Organizados por funcionalidad con `test.describe()` y `test.beforeEach()`
-- **Utils**: Helper compartido para login reutilizable en todas las suites
-- **Config**: Centralizada en `playwright.config.js` con soporte para reportes y evidencia en fallas
+- **Utils**: Helper compartido con credenciales centralizadas y login reutilizable
+- **Config**: Multi-browser en `playwright.config.js` con soporte para reportes y evidencia en fallas
+- **CI/CD**: GitHub Actions ejecuta los tests y sube reportes y screenshots como artefactos
